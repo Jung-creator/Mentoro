@@ -31,79 +31,19 @@ enum Part: String, CaseIterable {
 }
 
 
-enum Category {
-    case 개발(Development)
-    case 디자인(Design)
-    case 비즈니스(Business)
-    case 소프트스킬(SoftSkills)
-    case 게임(Games)
-    case 스포츠(Sports)
-    case 음식(Food)
-    case 음악(Music)
-    case 콘텐츠(Contents)
-    
-    enum Development: String, CaseIterable {
-        case 자료구조
-        case 알고리즘
-        case 추상화
-        case 객체지향
-        case 아키텍처
-    }
-    
-    enum Design: String, CaseIterable {
-        case UX설계
-        case 디자인시스템
-        case UI디자인
-        case 타이포그래피
-        case HIG
-    }
-    enum Business: String, CaseIterable {
-        case PM
-        case 서비스기획
-        case 비즈니스전략
-        case 스토리텔링
-        case 마케팅
-    }
-    enum SoftSkills: String, CaseIterable {
-        case 마음관리
-        case 오너쉽
-        case 메타인지
-        case 습관형성
-        case 평생학습
-    }
-    enum Games: String, CaseIterable {
-        case LOL
-        case TFT
-        case WOW
-        case 구스구스덕
-        case 오버워치
-    }
-    enum Sports: String, CaseIterable {
-        case 축구
-        case 풋살
-        case 농구
-        case 수영
-        case 배구
-    }
-    enum Food: String, CaseIterable {
-        case 치킨
-        case 피자
-        case 떡볶이
-        case 마라탕
-        case 햄버거
-    }
-    enum Music: String, CaseIterable {
-        case 팝
-        case 락
-        case 발라드
-        case 힙합
-        case 클래식
-    }
-    enum Contents: String, CaseIterable {
-        case 육아
-        case 연애
-        case 결혼
-        case 자기계발
-        case 건강
-    }
+enum Category: String, CaseIterable {
+    case development
+    case design
+    case business
+    case softSkills
+    case games
+    case sports
+    case food
+    case music
+    case contents
 }
+
+
+let developmentItems: [String] = ["자료구조","알고리즘","추상화","객체지향","함수형 프로그래밍","아키텍처","디자인패턴","SW엔지니어링","코드가독성","클린코드","유지보수","테스트","코드리팩토링","테스트자동화","CI/CD","성능최적화"]
+
+let designItems: [String] = ["UX설계","디자인시스템","프로토타이핑","UI디자인","컬러시스템","타이포그래피","아이콘디자인","HIG"]

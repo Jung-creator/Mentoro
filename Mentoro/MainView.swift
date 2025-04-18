@@ -124,8 +124,7 @@ struct MainView: View {
                         ) {
                             ForEach(Category.allCases, id: \.self) {
                                 category in
-                                Button(action: {
-                                    print("move to \(category.rawValue)")}) {
+                                NavigationLink(destination: CategoryView(title: category.rawValue)) {
                                         VStack {
                                             Image(systemName: "aqi.low")
                                                 .font(.title)

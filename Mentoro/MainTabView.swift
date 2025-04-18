@@ -30,12 +30,6 @@ struct MainTabView: View {
 
 
 
-struct FavoriteView: View {
-    var body: some View {
-        Text("Favorite")
-    }
-}
-
 #Preview {
     MainTabView()
 }

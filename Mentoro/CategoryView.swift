@@ -45,10 +45,12 @@ struct ImageScrollView: View {
         ScrollView(.horizontal) {
             HStack {
                 ForEach(0..<7) {
-                    _ in Circle()
-                        .fill(Color.gray)
-                        .opacity(0.2)
-                        .frame(width:80)
+                    _ in NavigationLink(destination: MentorDetailView()) {
+                        Circle()
+                            .fill(Color.gray)
+                            .opacity(0.2)
+                            .frame(width:80)
+                    }
                         
                 }
             }

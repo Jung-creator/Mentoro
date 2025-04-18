@@ -9,22 +9,24 @@ import SwiftUI
 
 struct MainTabView: View {
     var body: some View {
-        TabView {
-            MainView()
-                .tabItem {
-                    Image(systemName: "person.3.fill")
-                    Text("Mentors")
-                }
-            
-            FavoriteView()
-                .tabItem {
-                    Image(systemName: "heart.fill")
-                    Text("Favorites")
-                }
-            
+        NavigationStack {
+            TabView {
+                MainView()
+                    .tabItem {
+                        Image(systemName: "person.3.fill")
+                        Text("Mentors")
+                    }
+                
+                FavoriteView()
+                    .tabItem {
+                        Image(systemName: "heart.fill")
+                        Text("Favorites")
+                    }
+                
+            }
+            .background(.ultraThinMaterial)
+            .ignoresSafeArea(edges: .bottom)
         }
-        .background(.ultraThinMaterial)
-        .ignoresSafeArea(edges: .bottom)
     }
 }
 

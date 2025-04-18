@@ -9,6 +9,13 @@ import SwiftUI
 
 struct MainView: View {
     var body: some View {
+        
+        let columns = [
+            GridItem(.flexible()),
+            GridItem(.flexible()),
+            GridItem(.flexible())
+        ]
+        
         NavigationStack {
             GeometryReader { geometry in
                 let width = geometry.size.width
@@ -71,8 +78,8 @@ struct MainView: View {
                                                     .frame(width: width * 0.21, height: width * 0.25)
                                                     .cornerRadius(12)
                                             }
-
-
+                                            
+                                            
                                         }
                                         
                                     }
@@ -99,6 +106,7 @@ struct MainView: View {
                             
                             
                         }
+                        .padding(.bottom)
                         // MARK: Third View
                         VStack(alignment: .leading) {
                             Group {
@@ -109,44 +117,41 @@ struct MainView: View {
                                     .font(.title3.bold())
                             }
                             .padding(.horizontal,8)
-
                             
-                            ForEach (Category.allCases, id:\.self) { category in Button(action: {
-                                print("move to \(category.rawValue)")
-                            }
-                                
-                                ) {
-                                ZStack(alignment: .leading) {
-                                    Color.gray
-                                        .opacity(0.2)
-                                        .frame(height: width * 0.2)
-                                        .cornerRadius(16)
-                                    
-                                    HStack {
-                                        Text(category.rawValue.uppercased())
-                                            .font(.title3.bold())
-                                            .foregroundStyle(Color.white)
-                                        Spacer()
-                                        Image(systemName: "chevron.right")
-                                        
+                        }
+                        
+                        LazyVGrid(columns: columns, spacing: 16
+                        ) {
+                            ForEach(Category.allCases, id: \.self) {
+                                category in
+                                Button(action: {
+                                    print("move to \(category.rawValue)")}) {
+                                        VStack {
+                                            Image(systemName: "aqi.low")
+                                                .font(.title)
+                                            Spacer()
+                                                .frame(height: 4)
+                                            
+                                            Text(category.rawValue)
+                                                .font(.caption)
+                                                .foregroundStyle(Color.gray)
+                                                .opacity(0.7)
+                                            Spacer()
+                                                .frame(height: 16)
+                                        }
                                     }
-                                    .padding(.horizontal)
-                                }
-                                .padding(.vertical, -1)
-                            }
                                 
                             }
                         }
-                        .padding(.top)
-
-                        
+                        .padding()
+                        }
+                        .padding(.horizontal)
+                        .padding(.bottom,48)
                     }
-                    .padding(.horizontal)
                 }
             }
         }
     }
-}
 
 #Preview {
     MainView()

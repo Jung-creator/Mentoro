@@ -10,10 +10,12 @@ import SwiftUI
 
 struct ChipLayoutView: View {
     
+    @Binding var isFavorite: Bool
     @State private var widths: [CGFloat] = []
     private let chipLabels: [String]
     
-    init(chipLabels: [String]) {
+    init(chipLabels: [String], isFavorite: Binding<Bool>) {
+        self._isFavorite = isFavorite
         self.chipLabels = chipLabels
         _widths = State(initialValue: Array(repeating:0, count: chipLabels.count))
         
@@ -38,18 +40,41 @@ struct ChipLayoutView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            let maxWidth = geometry.size.width - 80
+            let maxWidth = geometry.size.width - 32
             
             let rows = computeRows(from: widths, within: maxWidth)
+            // favorite 화면이면 2줄만 나옵니다.
+            let visibleRows = isFavorite ? Array(rows.prefix(2)) : rows
+            let visibleIndices = visibleRows.flatMap { $0 }
+            let hiddenCount = chipLabels.count - visibleIndices.count
             
-            
-            VStack {
-                ForEach(0..<rows.count, id: \.self) {
-                    rowIndex in HStack(spacing:0) {
-                        ForEach(rows[rowIndex], id: \.self) {
-                            i in ChipView(textWidth: $widths[i], label: chipLabels[i])
+            ZStack(alignment: .bottomTrailing) {
+                // favorite 화면이면 leading으로 정렬됩니다
+                VStack(alignment: isFavorite ? .leading : .center) {
+                    ForEach(0..<visibleRows.count, id: \.self) {
+                        rowIndex in HStack(spacing:0) {
+                            ForEach(visibleRows[rowIndex], id: \.self) {
+                                i in ChipView(textWidth: $widths[i], label: chipLabels[i])
+                            }
                         }
                     }
+                }
+                if isFavorite && hiddenCount > 0 {
+                    ZStack {
+                        Circle()
+                            .fill(Color.white)
+                            .frame(width: 30)
+                        Circle()
+                            .fill(Color.blue)
+                            .frame(width: 24)
+
+                        Text("+\(hiddenCount)")
+                            .foregroundStyle(Color.white)
+                            .font(.caption2.bold())
+                            .padding(.bottom, 4)
+                    }
+
+                        
                 }
             }
         }
@@ -61,14 +86,11 @@ struct ChipLayoutView: View {
 struct ChipView: View {
     @Binding var textWidth: CGFloat
     var label: String
-    
     var body: some View {
-        let horizontalPadding: CGFloat = 4 * 2
-        let outterPadding: CGFloat = 4 * 2
-//        let totalWidth = textWidth + horizontalPadding + outterPadding
         
         VStack {
             Text(label)
+                .font(.caption)
                 .background(
                     GeometryReader {
                         geomtry in Color.clear.onAppear {
@@ -82,8 +104,6 @@ struct ChipView: View {
                 .padding(.vertical,4)
                 .background(Color.gray.opacity(0.2))
                 .cornerRadius(8)
-            
-//            Text(String(format: "%.2f", totalWidth))
                 
         }
         .padding(.horizontal, 4)
@@ -91,5 +111,5 @@ struct ChipView: View {
 }
 
 #Preview {
-    ChipLayoutView(chipLabels: ["Chip", "Chip 2000", "Chip 3", "Chip 4", "Chip 5", "Chip 6", "Chip 7", "Chip 7", "Chip 7", "Chip 7"])
+    ChipLayoutView(chipLabels: ["Chip", "Chip 2000", "Chip 3", "Chip 4", "Chip 5", "Chip 6", "Chip 7", "Chip 7", "Chip 7", "Chip 7", "Chip 7", "Chip 7", "Chip 7", "Chip 7", "Chip 7"], isFavorite: .constant(true))
 }

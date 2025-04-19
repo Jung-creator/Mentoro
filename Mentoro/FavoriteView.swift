@@ -55,25 +55,33 @@ struct FavoriteCardItem: View {
                     .frame(width: width * 0.25 - 16, height: width * 0.25 - 16)
                     .cornerRadius(12)
                 VStack(alignment: .leading) {
-                    Spacer()
-                        .frame(height:4)
+//                    Spacer()
+//                        .frame(height:4)
                     HStack {
                         Text("Name")
                             .font(.body.bold())
+                        Image(systemName: "chevron.forward")
+                            .font(.caption)
                         Spacer()
                         Text("Part")
                             .font(.caption.bold())
                             .foregroundStyle(Color.gray)
-                    }.padding(.trailing)
-                    Spacer()
-                    Text("text")
-                        .padding(.bottom)
+                    }
+                    .padding(.top, 2)
+                    .padding(.bottom,width < 400 ? -2 : 0)
+                    .padding(.trailing)
+//                    .background(Color.gray)
+                    
+                    ChipLayoutView(chipLabels: ["1000","1000","1000","1000000","1000","1000","1000","1000","1000","1000000"], isFavorite: .constant(true), width: width * 0.66
+                    )
+//                    .background(Color.gray)
                     
                 }
                 
             }
             .padding(.horizontal,8)
-            .padding(.top,8)
+//            .padding(.top,8)
+            //            .frame(height: 60)
         }
         // ZStack의 크기를 정해주는 것이 중요
         .frame(height: width * 0.25)

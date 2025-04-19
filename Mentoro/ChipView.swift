@@ -9,17 +9,20 @@ import SwiftUI
 
 
 struct ChipLayoutView: View {
+    let width: CGFloat
     
     @Binding var isFavorite: Bool
     @State private var widths: [CGFloat] = []
     private let chipLabels: [String]
     
-    init(chipLabels: [String], isFavorite: Binding<Bool>) {
+    init(chipLabels: [String], isFavorite: Binding<Bool>, width: CGFloat) {
         self._isFavorite = isFavorite
         self.chipLabels = chipLabels
         _widths = State(initialValue: Array(repeating:0, count: chipLabels.count))
+        self.width = width
         
     }
+    
     private func computeRows(from widths: [CGFloat], within maxWidth: CGFloat) -> [[Int]] {
         var currentX: CGFloat = 0
         var rows: [[Int]] = [[]]
@@ -39,46 +42,46 @@ struct ChipLayoutView: View {
     
     
     var body: some View {
-        GeometryReader { geometry in
-            let maxWidth = geometry.size.width - 32
             
+            let maxWidth = width - 32
             let rows = computeRows(from: widths, within: maxWidth)
-            // favorite 화면이면 2줄만 나옵니다.
+//             favorite 화면이면 2줄만 나옵니다.
             let visibleRows = isFavorite ? Array(rows.prefix(2)) : rows
             let visibleIndices = visibleRows.flatMap { $0 }
             let hiddenCount = chipLabels.count - visibleIndices.count
-            
-            ZStack(alignment: .bottomTrailing) {
-                // favorite 화면이면 leading으로 정렬됩니다
-                VStack(alignment: isFavorite ? .leading : .center) {
-                    ForEach(0..<visibleRows.count, id: \.self) {
-                        rowIndex in HStack(spacing:0) {
-                            ForEach(visibleRows[rowIndex], id: \.self) {
-                                i in ChipView(textWidth: $widths[i], label: chipLabels[i])
-                            }
-                        }
+        
+        // favorite 화면이면 leading으로 정렬됩니다
+        VStack(alignment: isFavorite ? .leading : .center) {
+            ForEach(0..<visibleRows.count, id: \.self) {
+                rowIndex in HStack(spacing:0) {
+                    ForEach(visibleRows[rowIndex], id: \.self) {
+                        i in ChipView(textWidth: $widths[i], label: chipLabels[i])
                     }
-                }
-                if isFavorite && hiddenCount > 0 {
-                    ZStack {
-                        Circle()
-                            .fill(Color.white)
-                            .frame(width: 30)
-                        Circle()
-                            .fill(Color.blue)
-                            .frame(width: 24)
-
-                        Text("+\(hiddenCount)")
-                            .foregroundStyle(Color.white)
-                            .font(.caption2.bold())
-                            .padding(.bottom, 4)
-                    }
-
-                        
                 }
             }
+            .padding(.bottom, -4)
         }
+//        
+//        if isFavorite && hiddenCount > 0 {
+//            ZStack {
+//                Circle()
+//                    .fill(Color.white)
+//                    .frame(width: 30)
+//                Circle()
+//                    .fill(Color.blue)
+//                    .frame(width: 24)
+//                
+//                Text("+\(hiddenCount)")
+//                    .foregroundStyle(Color.white)
+//                    .font(.caption2.bold())
+//                    .padding(.bottom, 4)
+//            }
+//            .padding(.bottom, -4)
+//        }
+    
+            
     }
+    
 }
 
 
@@ -104,12 +107,12 @@ struct ChipView: View {
                 .padding(.vertical,4)
                 .background(Color.gray.opacity(0.2))
                 .cornerRadius(8)
-                
+            
         }
-        .padding(.horizontal, 4)
+        .padding(.horizontal, 2)
     }
 }
 
 #Preview {
-    ChipLayoutView(chipLabels: ["Chip", "Chip 2000", "Chip 3", "Chip 4", "Chip 5", "Chip 6", "Chip 7", "Chip 7", "Chip 7", "Chip 7", "Chip 7", "Chip 7", "Chip 7", "Chip 7", "Chip 7"], isFavorite: .constant(true))
+    ChipLayoutView(chipLabels: ["Chip", "Chip 2000", "Chip 3", "Chip 4", "Chip 5", "Chip 6", "Chip 7", "Chip 7", "Chip 7", "Chip 7", "Chip 7", "Chip 7", "Chip 7", "Chip 7", "Chip 7"], isFavorite: .constant(true), width: 300)
 }

@@ -10,26 +10,30 @@ import SwiftUI
 struct FavoriteView: View {
     var body: some View {
         
-        GeometryReader {
-            geometry in
-            let width = geometry.size.width
-            VStack(alignment: .leading) {
-                Spacer()
-                    .frame(height: 16)
-                Text("Title")
-                    .font(.title.bold())
-                ScrollView {
-                    ForEach(0..<4) {
-                        _ in
-                        
-                        NavigationLink(destination: MentorDetailView()) {
-                            FavoriteCardItem(width: width)
+        ZStack {
+            Color.gray.opacity(0.05) // 전체 배경
+                .ignoresSafeArea()
+            GeometryReader {
+                geometry in
+                let width = geometry.size.width
+                VStack(alignment: .leading) {
+                    Spacer()
+                        .frame(height: 16)
+                    Text("Title")
+                        .font(.title.bold())
+                    ScrollView {
+                        ForEach(0..<4) {
+                            _ in
+                            
+                            NavigationLink(destination: MentorDetailView()) {
+                                FavoriteCardItem(width: width)
+                            }
+                            
+                            
                         }
-                        
-                        
                     }
-                }
-            }.padding(.horizontal)
+                }.padding(.horizontal)
+            }
         }
     }
 }

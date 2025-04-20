@@ -88,30 +88,41 @@ struct ChipLayoutView: View {
 
 struct ChipView: View {
     @Binding var textWidth: CGFloat
+    @State private var isSelected = false
     var label: SubCategory
     var isFavorite: Bool
     
+    
     var body: some View {
         
-        VStack {
-            Text(label.rawValue)
-                .font(isFavorite ? .caption : .body)
-                .background(
-                    GeometryReader {
-                        geomtry in Color.clear.onAppear {
-                            textWidth = geomtry.size.width
+        Button(action: {
+            isSelected.toggle()
+        }) {
+            VStack {
+                Text(label.rawValue)
+                    .foregroundColor(.black)                 .font(isFavorite ? .caption : .body)
+                    .background(
+                        GeometryReader {
+                            geomtry in Color.clear.onAppear {
+                                textWidth = geomtry.size.width
+                            }
                         }
-                    }
-                )
-                .lineLimit(1)
-                .fixedSize(horizontal: true, vertical: false)
-                .padding(.horizontal,8)
-                .padding(.vertical,4)
-                .background(label.category.color.opacity(0.16))
-                .cornerRadius(8)
+                    )
+                    .lineLimit(1)
+                    .fixedSize(horizontal: true, vertical: false)
+                    .padding(.horizontal,8)
+                    .padding(.vertical,4)
+                    .background(label.category.color.opacity(isSelected ? 0.3 : 0.16))
+                    .cornerRadius(8)
+                    .background(
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(isSelected ? label.category.color.opacity(0.5) : Color.clear, lineWidth: 3)
+                    )
+                
+            }
+            .padding(.horizontal, isFavorite ? 2 : 4)
             
         }
-        .padding(.horizontal, isFavorite ? 2 : 4)
     }
 }
 

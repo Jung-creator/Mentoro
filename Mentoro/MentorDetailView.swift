@@ -14,65 +14,68 @@ struct MentorDetailView: View {
         self.mentor = mentor
     }
     
-    
-    
     var body: some View {
         
-//        let interests = mentor.interests.map { $0.rawValue }
-        
-        GeometryReader {
-            geometry in
-            let width = geometry.size.width
-            
-            ScrollView {
-                VStack {
-                    Spacer()
-                        .frame(height: 24)
-                    Text(mentor.name.rawValue)
-                        .font(.title2.bold())
-                    Image(mentor.imageName)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 144)
-                        .clipShape(Circle())
-                    
-                    Group {
-                        Color.gray
-                            .frame(height:1)
-                            .opacity(0.2)
-                            .padding(.horizontal, width * 0.1)
+        ZStack {
+            GeometryReader {
+                geometry in
+                let width = geometry.size.width
+                
+                ScrollView {
+                    VStack {
+                        Spacer()
+                            .frame(height: 24)
+                        Text(mentor.name.rawValue)
+                            .font(.title2.bold())
+                        Image(mentor.imageName)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 144)
+                            .clipShape(Circle())
                         
-                        HStack {
-                            ImageAndTextView()
+                        Group {
+                            Color.gray
+                                .frame(height:1)
+                                .opacity(0.2)
+                                .padding(.horizontal, width * 0.1)
                             
-                            Rectangle()
-                                .fill(Color.gray)
+                            HStack {
+                                ImageAndTextView()
+                                
+                                Rectangle()
+                                    .fill(Color.gray)
+                                    .opacity(0.2)
+                                    .frame(width: 1, height: 32)
+                                ImageAndTextView()
+                                Rectangle()
+                                    .fill(Color.gray)
+                                    .opacity(0.2)
+                                    .frame(width: 1, height: 32)
+                                ImageAndTextView()
+                            }
+                            Color.gray
+                                .frame(height:1)
                                 .opacity(0.2)
-                                .frame(width: 1, height: 32)
-                            ImageAndTextView()
-                            Rectangle()
-                                .fill(Color.gray)
-                                .opacity(0.2)
-                                .frame(width: 1, height: 32)
-                            ImageAndTextView()
+                                .padding(.top,4)
+                                .padding(.horizontal, width * 0.1)
+                            
                         }
-                        Color.gray
-                            .frame(height:1)
-                            .opacity(0.2)
-                            .padding(.top,4)
-                            .padding(.horizontal, width * 0.1)
-                        
+                        Spacer()
+                            .frame(height: 32)
+                        ChipLayoutView(chipLabels: mentor.interests, isFavorite: .constant(false), width: width * 0.85)
                     }
-                    Spacer()
-                        .frame(height: 32)
-                    ChipLayoutView(chipLabels: mentor.interests, isFavorite: .constant(false), width: width * 0.85)
-                }.toolbar {
-                    ToolbarItem(placement: .topBarTrailing) {
-                        
-                        NavigationLink("Edit", destination: EditView())
+                    .padding(.bottom, 80)
+                    .toolbar {
+                        ToolbarItem(placement: .topBarTrailing) {
+                            
+                            NavigationLink("Edit", destination: EditView())
+                        }
                     }
                 }
             }
+            LinearGradient(colors: [Color.white, Color.white.opacity(0), Color.white.opacity(0)], startPoint: .bottom, endPoint: .center)
+                .allowsHitTesting(false)
+                .ignoresSafeArea()
         }
     }
 }

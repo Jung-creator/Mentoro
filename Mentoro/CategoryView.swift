@@ -45,7 +45,7 @@ struct ImageScrollView: View {
         ScrollView(.horizontal) {
             HStack {
                 ForEach(0..<7) {
-                    _ in NavigationLink(destination: MentorDetailView()) {
+                    _ in NavigationLink(destination: MentorDetailView(mentor: mockMentors.first!)) {
                         Circle()
                             .fill(Color.gray)
                             .opacity(0.2)

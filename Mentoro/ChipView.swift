@@ -13,9 +13,9 @@ struct ChipLayoutView: View {
     
     @Binding var isFavorite: Bool
     @State private var widths: [CGFloat] = []
-    private let chipLabels: [String]
+    private let chipLabels: [SubCategory]
     
-    init(chipLabels: [String], isFavorite: Binding<Bool>, width: CGFloat) {
+    init(chipLabels: [SubCategory], isFavorite: Binding<Bool>, width: CGFloat) {
         self._isFavorite = isFavorite
         self.chipLabels = chipLabels
         _widths = State(initialValue: Array(repeating:0, count: chipLabels.count))
@@ -55,11 +55,11 @@ struct ChipLayoutView: View {
             ForEach(0..<visibleRows.count, id: \.self) {
                 rowIndex in HStack(spacing:0) {
                     ForEach(visibleRows[rowIndex], id: \.self) {
-                        i in ChipView(textWidth: $widths[i], label: chipLabels[i])
+                        i in ChipView(textWidth: $widths[i], label: chipLabels[i], isFavorite: isFavorite)
                     }
                 }
             }
-            .padding(.bottom, -4)
+            .padding(.bottom, isFavorite ? -4 : 0)
         }
 //        
 //        if isFavorite && hiddenCount > 0 {
@@ -88,12 +88,14 @@ struct ChipLayoutView: View {
 
 struct ChipView: View {
     @Binding var textWidth: CGFloat
-    var label: String
+    var label: SubCategory
+    var isFavorite: Bool
+    
     var body: some View {
         
         VStack {
-            Text(label)
-                .font(.caption)
+            Text(label.rawValue)
+                .font(isFavorite ? .caption : .body)
                 .background(
                     GeometryReader {
                         geomtry in Color.clear.onAppear {
@@ -105,14 +107,14 @@ struct ChipView: View {
                 .fixedSize(horizontal: true, vertical: false)
                 .padding(.horizontal,8)
                 .padding(.vertical,4)
-                .background(Color.gray.opacity(0.2))
+                .background(label.category.color.opacity(0.16))
                 .cornerRadius(8)
             
         }
-        .padding(.horizontal, 2)
+        .padding(.horizontal, isFavorite ? 2 : 4)
     }
 }
 
 #Preview {
-    ChipLayoutView(chipLabels: ["Chip", "Chip 2000", "Chip 3", "Chip 4", "Chip 5", "Chip 6", "Chip 7", "Chip 7", "Chip 7", "Chip 7", "Chip 7", "Chip 7", "Chip 7", "Chip 7", "Chip 7"], isFavorite: .constant(true), width: 300)
+    ChipLayoutView(chipLabels: [.자료구조, .추상화, .객체지향, .아키텍처, .코드가독성, .유지보수, .리팩토링], isFavorite: .constant(false), width: 300)
 }

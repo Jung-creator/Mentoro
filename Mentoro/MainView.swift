@@ -18,7 +18,7 @@ struct MainView: View {
         
         ZStack {
             Color.gray.opacity(0.05) // 전체 배경
-                            .ignoresSafeArea()
+                .ignoresSafeArea()
             GeometryReader { geometry in
                 let width = geometry.size.width
                 
@@ -34,7 +34,7 @@ struct MainView: View {
                             Text("오늘의 멘토")
                         }
                         
-                            .font(.title.bold())
+                        .font(.title.bold())
                         ZStack(alignment: .bottomLeading) {
                             Image("lingo")
                                 .resizable()
@@ -55,21 +55,32 @@ struct MainView: View {
                             
                             HStack(alignment: .bottom) {
                                 VStack(alignment: .leading) {
-                                    Text("어느 날 갑자기")
+                                    Text("오늘도 신나게")
                                         .font(.body.bold())
                                         .foregroundColor(.teal)
                                         .saturation(3)
-                                    Text("피아노가 생긴 Lingo")
+                                    Text("힙합을 즐기는 Lingo")
                                         .font(.title2.bold())
                                         .foregroundColor(Color.white)
                                     
                                 }
                                 Spacer()
-                                Button(action: {
-                                    print("Button pressed")
-                                }) {
-                                    Text("더보기").bold()
-
+                                
+                                
+                                NavigationLink(destination: MentorDetailView(mentor: mockMentors.first!))
+                                {
+                                    ZStack {
+                                        
+                                        Text("더 알아보기").bold()
+                                            .foregroundColor(Color.blue)
+                                            .padding(.horizontal, 16)
+                                            .padding(.vertical, 8)
+                                            .background(Color.white)
+                                            .cornerRadius(32)
+                                    }
+                                    .padding(.vertical, -8)
+                                    .padding(.horizontal, -8)
+                                    
                                 }
                                 .foregroundStyle(Color.accentColor)
                                 .buttonStyle(.borderedProminent)
@@ -100,12 +111,12 @@ struct MainView: View {
                                 .padding(.vertical,8)
                                 
                                 ZStack {
-                                    ScrollView(.horizontal) {
+                                    ScrollView(.horizontal, showsIndicators: false) {
                                         HStack {
                                             Spacer()
                                                 .frame(width: 16)
                                             ForEach(mockMentors, id: \.name) { mentor in
-                                                NavigationLink(destination: MentorDetailView()) {
+                                                NavigationLink(destination: MentorDetailView(mentor: mentor)) {
                                                     Image(mentor.imageName)
                                                         .resizable()
                                                         .scaledToFill()
@@ -146,19 +157,18 @@ struct MainView: View {
                                 
                                 
                             }
-    //                        .padding()
                             .padding(.vertical)
                             
                             
                         }
-                        .padding(.bottom)
+                        .padding(.bottom, 24)
                         // MARK: Third View
                         VStack(alignment: .leading) {
                             Group {
-                                Text("Inner Text")
+                                Text("코드 잘 맞는 멘토를 찾고싶다면")
                                     .font(.body.bold())
                                     .foregroundStyle(Color.gray)
-                                Text("Inner Text")
+                                Text("카테고리 구경부터 해보세요")
                                     .font(.title3.bold())
                             }
                             .padding(.horizontal,8)
@@ -170,39 +180,44 @@ struct MainView: View {
                             ForEach(Category.allCases, id: \.self) {
                                 category in
                                 NavigationLink(destination: CategoryView(title: category.rawValue)) {
-                                        VStack {
+                                    VStack {
+                                        ZStack {
+                                            Circle()
+                                                .frame(width: 64)
+                                                .foregroundStyle(Color.white)
                                             Image(systemName: "aqi.low")
                                                 .font(.title)
-                                            Spacer()
-                                                .frame(height: 4)
-                                            
-                                            Text(category.rawValue)
-                                                .font(.caption)
-                                                .foregroundStyle(Color.gray)
-                                                .opacity(0.7)
-                                            Spacer()
-                                                .frame(height: 16)
                                         }
+                                        Spacer()
+                                            .frame(height: 8)
+                                        
+                                        Text(category.rawValue)
+                                            .font(.caption)
+                                            .foregroundStyle(Color.gray)
+                                        
+                                        Spacer()
+                                            .frame(height: 16)
                                     }
+                                }
                                 
                             }
                         }
                         .padding()
-                        }
-                        .padding(.horizontal)
-                        .padding(.bottom,48)
                     }
+                    .padding(.horizontal)
+                    .padding(.bottom,48)
                 }
-        }
+            }
         }
     }
+}
 
 
 
 struct RoundedCorner: Shape {
     var radius: CGFloat = 16.0
     var corners: UIRectCorner = .allCorners
-
+    
     func path(in rect: CGRect) -> Path {
         let path = UIBezierPath(
             roundedRect: rect,

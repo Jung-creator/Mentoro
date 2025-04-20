@@ -25,7 +25,7 @@ struct FavoriteView: View {
                         ForEach(0..<4) {
                             _ in
                             
-                            NavigationLink(destination: MentorDetailView()) {
+                            NavigationLink(destination: MentorDetailView(mentor: mockMentors.first!)) {
                                 FavoriteCardItem(width: width)
                             }
                             
@@ -76,7 +76,7 @@ struct FavoriteCardItem: View {
                     .padding(.trailing)
 //                    .background(Color.gray)
                     
-                    ChipLayoutView(chipLabels: ["1000","1000","1000","1000000","1000","1000","1000","1000","1000","1000000"], isFavorite: .constant(true), width: width * 0.66
+                    ChipLayoutView(chipLabels: [.자료구조, .추상화, .객체지향, .아키텍처, .코드가독성, .유지보수, .리팩토링], isFavorite: .constant(true), width: width * 0.66
                     )
 //                    .background(Color.gray)
                     

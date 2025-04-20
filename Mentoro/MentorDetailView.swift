@@ -8,7 +8,18 @@
 import SwiftUI
 
 struct MentorDetailView: View {
+    private let mentor: Mentor
+    
+    init(mentor: Mentor) {
+        self.mentor = mentor
+    }
+    
+    
+    
     var body: some View {
+        
+//        let interests = mentor.interests.map { $0.rawValue }
+        
         GeometryReader {
             geometry in
             let width = geometry.size.width
@@ -17,13 +28,13 @@ struct MentorDetailView: View {
                 VStack {
                     Spacer()
                         .frame(height: 24)
-                    Text("Name")
+                    Text(mentor.name.rawValue)
                         .font(.title2.bold())
-                    Circle()
-                        .fill(Color.gray)
-                        .opacity(0.2)
+                    Image(mentor.imageName)
+                        .resizable()
+                        .scaledToFill()
                         .frame(width: 144)
-                        .padding(.bottom)
+                        .clipShape(Circle())
                     
                     Group {
                         Color.gray
@@ -50,7 +61,11 @@ struct MentorDetailView: View {
                             .opacity(0.2)
                             .padding(.top,4)
                             .padding(.horizontal, width * 0.1)
+                        
                     }
+                    Spacer()
+                        .frame(height: 32)
+                    ChipLayoutView(chipLabels: mentor.interests, isFavorite: .constant(false), width: width * 0.85)
                 }.toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
                         
@@ -79,5 +94,5 @@ struct ImageAndTextView: View {
 }
 
 #Preview {
-    MentorDetailView()
+    MentorDetailView(mentor: mockMentors[7])
 }

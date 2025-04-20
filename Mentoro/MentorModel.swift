@@ -6,3 +6,12 @@
 //
 
 import Foundation
+
+
+struct Mentor: Identifiable {
+    let id = UUID()
+    let name: Name
+    let imageName: String
+    let field: Field
+    let interests: [SubCategory]
+}

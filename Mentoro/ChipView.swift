@@ -102,56 +102,66 @@ struct ChipView: View {
     
     var body: some View {
         
-        Button(action: {
-            isSelected.toggle()
-            
-            if isSelected {
-                let item = FavoriteItem(mentorName: mentorName, chipLabel: label)
-                modelContext.insert(item)
-            } else {
-                if let allItem = try? modelContext.fetch(FetchDescriptor<FavoriteItem>()) {
-                    for item in allItem where item.mentorName == mentorName && item.chipLabel == label {
-                        modelContext.delete(item)
-                    }
-                }
-            }
-        }) {
-            VStack {
-                HStack {
-                    Text(label.rawValue)
-                    if isSelected {
-                        Image(systemName: "heart.fill")
-                            .padding(.leading,-8)
-                            .foregroundColor(label.category.color.opacity(0.6))
-                    }
-                }
-                    .foregroundColor(.black)
-                    .font(isFavorite ? .caption : .footnote)
-                    .background(
-                        GeometryReader {
-                            geomtry in Color.clear.onAppear {
-                                textWidth = geomtry.size.width
-                            }
-                        }
-                    )
-                    .lineLimit(1)
-                    .fixedSize(horizontal: true, vertical: false)
-                    .padding(.horizontal, isFavorite ? 8 : 16)
-                    .padding(.vertical,isFavorite ? 4 : 8)
-                    .background(label.category.color.opacity(isSelected ? 0.24 : 0.16))
-                    .cornerRadius(24)
-                    .background(
-                        RoundedRectangle(cornerRadius: 24)
-                            .stroke(isSelected ? label.category.color.opacity(0.5) : Color.clear, lineWidth: 2)
-                    )
+        if isFavorite {
+            chipContent
+        } else {
+            Button(action: {
+                isSelected.toggle()
                 
+                if isSelected {
+                    let item = FavoriteItem(mentorName: mentorName, chipLabel: label)
+                    modelContext.insert(item)
+                } else {
+                    if let allItem = try? modelContext.fetch(FetchDescriptor<FavoriteItem>()) {
+                        for item in allItem where item.mentorName == mentorName && item.chipLabel == label {
+                            modelContext.delete(item)
+                        }
+                    }
+                }
+            })
+            {
+                chipContent
             }
-            .padding(.horizontal, 2)
+            .buttonStyle(.plain)
+        }
+    }
+    
+    private var chipContent: some View {
+        VStack {
+            HStack {
+                Text(label.rawValue)
+                if isSelected {
+                    Image(systemName: "heart.fill")
+                        .padding(.leading,-8)
+                        .foregroundColor(label.category.color.opacity(0.6))
+                }
+            }
+                .foregroundColor(.black)
+                .font(isFavorite ? .caption : .footnote)
+                .background(
+                    GeometryReader {
+                        geomtry in Color.clear.onAppear {
+                            textWidth = geomtry.size.width
+                        }
+                    }
+                )
+                .lineLimit(1)
+                .fixedSize(horizontal: true, vertical: false)
+                .padding(.horizontal, isFavorite ? 8 : 16)
+                .padding(.vertical,isFavorite ? 4 : 8)
+                .background(label.category.color.opacity(isSelected ? 0.24 : 0.16))
+                .cornerRadius(24)
+                .background(
+                    RoundedRectangle(cornerRadius: 24)
+                        .stroke(isSelected ? label.category.color.opacity(0.5) : Color.clear, lineWidth: 2)
+                )
             
         }
-        .buttonStyle(.plain)
+        .padding(.horizontal, 2)
     }
 }
+
+
 
 #Preview {
     ChipLayoutView(chipLabels: [.자료구조, .추상화, .객체지향, .아키텍처, .코드가독성, .유지보수, .리팩토링],mentorName: mockMentors.first!.name, isFavorite: .constant(false), width: 300)

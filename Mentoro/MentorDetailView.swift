@@ -65,7 +65,7 @@ struct MentorDetailView: View {
                         }
                         
                         // MARK: 저장된 Favorites 보여주기
-                        Text(favorites.map {$0.chipLabel.rawValue}.joined(separator: ", "))
+//                        Text(favorites.map {$0.chipLabel.rawValue}.joined(separator: ", "))
                         
                         Spacer()
                             .frame(height: 32)

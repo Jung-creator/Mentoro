@@ -41,31 +41,33 @@ struct FavoriteView: View {
                             .font(.title2.bold())
                     }
                     
-                    ScrollView {
-                        ForEach(groupedFavorites.keys.sorted(), id: \.self) {
-                            mentorName in
-                            
-                            NavigationLink(
-                                destination:
-                                    
-                                    MentorDetailView(mentor: mockMentors.first(where: { $0.name == mentorName })!)
+                    ZStack(alignment: .bottom) {
+                        ScrollView {
+                            ForEach(groupedFavorites.keys.sorted(), id: \.self) {
+                                mentorName in
                                 
-                            ) {
-                                if let chips = groupedFavorites[mentorName] {
-                                    FavoriteCardItem(width: width, mentorName: mentorName, chipLabels: chips)
-                                        .id(chips.hashValue)
-                                } else {
-                                    Text("no chips")
+                                NavigationLink(
+                                    destination:
+                                        
+                                        MentorDetailView(mentor: mockMentors.first(where: { $0.name == mentorName })!)
+                                    
+                                ) {
+                                    if let chips = groupedFavorites[mentorName] {
+                                        FavoriteCardItem(width: width, mentorName: mentorName, chipLabels: chips)
+                                            .id(chips.hashValue)
+                                    } else {
+                                        Text("no chips")
+                                    }
                                 }
                             }
                         }
-                        
+                        Button(role: .destructive) {
+                                                    deleteAllFavorites()
+                                                } label: {
+                                                    Text("Delete All Favorites")
+                                                }.buttonStyle(.bordered)
                     }
-                    Button(role: .destructive) {
-                        deleteAllFavorites()
-                    } label: {
-                        Text("Delete All Favorites")
-                    }
+                    
                 }.padding(.horizontal)
             }
         }

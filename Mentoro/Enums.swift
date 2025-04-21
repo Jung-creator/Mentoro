@@ -8,7 +8,7 @@
 import SwiftUI
 
 
-enum Name: String, CaseIterable {
+enum MentorName: String, CaseIterable, Codable {
     case Dora
     case Gommin
     case Daisy
@@ -94,7 +94,7 @@ enum Category: String, CaseIterable, Identifiable {
 }
 
 
-enum SubCategory: String, CaseIterable, Identifiable {
+enum SubCategory: String, CaseIterable, Identifiable, Codable {
     var id: String { self.rawValue }
 
     // 개발

@@ -6,8 +6,11 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct FavoriteView: View {
+    @Query var favorites: [FavoriteItem]
+    
     var body: some View {
         
         ZStack {
@@ -81,7 +84,7 @@ struct FavoriteCardItem: View {
                     .padding(.trailing)
 //                    .background(Color.gray)
                     
-                    ChipLayoutView(chipLabels: [.자료구조, .추상화, .객체지향, .아키텍처, .코드가독성, .유지보수, .리팩토링], isFavorite: .constant(true), width: width * 0.66
+                    ChipLayoutView(chipLabels: [.자료구조, .추상화, .객체지향, .아키텍처, .코드가독성, .유지보수, .리팩토링],mentorName: mockMentors.first!.name, isFavorite: .constant(true), width: width * 0.66
                     )
 //                    .background(Color.gray)
                     

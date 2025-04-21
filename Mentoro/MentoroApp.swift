@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct MentoroApp: App {
@@ -13,5 +14,6 @@ struct MentoroApp: App {
         WindowGroup {
             MainTabView()
         }
+        .modelContainer(for: FavoriteItem.self)
     }
 }

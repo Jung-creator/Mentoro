@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 
 struct ChipLayoutView: View {
@@ -13,11 +14,14 @@ struct ChipLayoutView: View {
     
     @Binding var isFavorite: Bool
     @State private var widths: [CGFloat] = []
-    private let chipLabels: [SubCategory]
     
-    init(chipLabels: [SubCategory], isFavorite: Binding<Bool>, width: CGFloat) {
+    private let chipLabels: [SubCategory]
+    private let mentorName: MentorName
+    
+    init(chipLabels: [SubCategory], mentorName: MentorName, isFavorite: Binding<Bool>, width: CGFloat) {
         self._isFavorite = isFavorite
         self.chipLabels = chipLabels
+        self.mentorName = mentorName
         _widths = State(initialValue: Array(repeating:0, count: chipLabels.count))
         self.width = width
         
@@ -55,7 +59,7 @@ struct ChipLayoutView: View {
             ForEach(0..<visibleRows.count, id: \.self) {
                 rowIndex in HStack(spacing:0) {
                     ForEach(visibleRows[rowIndex], id: \.self) {
-                        i in ChipView(textWidth: $widths[i], label: chipLabels[i], isFavorite: isFavorite)
+                        i in ChipView(textWidth: $widths[i], label: chipLabels[i], mentorName: mentorName, isFavorite: isFavorite)
                     }
                 }
             }
@@ -87,9 +91,12 @@ struct ChipLayoutView: View {
 
 
 struct ChipView: View {
+    @Environment(\.modelContext) private var modelContext
+    
     @Binding var textWidth: CGFloat
     @State private var isSelected = false
     var label: SubCategory
+    var mentorName: MentorName
     var isFavorite: Bool
     
     
@@ -97,6 +104,14 @@ struct ChipView: View {
         
         Button(action: {
             isSelected.toggle()
+            let item = FavoriteItem(mentorName: mentorName, chipLabel: label)
+            
+            // 중복 방지 검사 로직
+            let existing = try? modelContext.fetch(FetchDescriptor<FavoriteItem>(predicate: #Predicate { $0.mentorName == mentorName && $0.chipLabel == label }))
+            if existing?.isEmpty ?? true {
+                modelContext.insert(item)
+            }
+            
         }) {
             VStack {
                 HStack {
@@ -135,5 +150,5 @@ struct ChipView: View {
 }
 
 #Preview {
-    ChipLayoutView(chipLabels: [.자료구조, .추상화, .객체지향, .아키텍처, .코드가독성, .유지보수, .리팩토링], isFavorite: .constant(false), width: 300)
+    ChipLayoutView(chipLabels: [.자료구조, .추상화, .객체지향, .아키텍처, .코드가독성, .유지보수, .리팩토링],mentorName: mockMentors.first!.name, isFavorite: .constant(false), width: 300)
 }

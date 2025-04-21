@@ -53,8 +53,12 @@ struct FavoriteView: View {
                                     
                                 ) {
                                     if let chips = groupedFavorites[mentorName] {
-                                        FavoriteCardItem(width: width, mentorName: mentorName, chipLabels: chips)
-                                            .id(chips.hashValue)
+                                        FavoriteCardItem(
+                                            width: width,
+                                            mentorName: mentorName,
+                                            chipLabels: chips,
+                                            favorites: favorites)
+                                        .id(chips.hashValue)
                                     } else {
                                         Text("no chips")
                                     }
@@ -62,10 +66,10 @@ struct FavoriteView: View {
                             }
                         }
                         Button(role: .destructive) {
-                                                    deleteAllFavorites()
-                                                } label: {
-                                                    Text("Delete All Favorites")
-                                                }.buttonStyle(.bordered)
+                            deleteAllFavorites()
+                        } label: {
+                            Text("Delete All Favorites")
+                        }.buttonStyle(.bordered)
                     }
                     
                 }.padding(.horizontal)
@@ -79,11 +83,13 @@ struct FavoriteCardItem: View {
     let width: Double
     let mentorName: MentorName
     let chipLabels: [SubCategory]
+    let favorites: [FavoriteItem]
     
-    init(width: Double, mentorName: MentorName, chipLabels: [SubCategory]) {
+    init(width: Double, mentorName: MentorName, chipLabels: [SubCategory], favorites: [FavoriteItem]) {
         self.width = width
         self.mentorName = mentorName
         self.chipLabels = chipLabels
+        self.favorites = favorites
     }
     
     var body: some View {
@@ -120,7 +126,12 @@ struct FavoriteCardItem: View {
                     .padding(.trailing)
                     
                     
-                    ChipLayoutView(chipLabels: chipLabels, mentorName: mentorName, isFavorite: .constant(true), width: width * 0.66
+                    ChipLayoutView(
+                        chipLabels: chipLabels,
+                        mentorName: mentorName,
+                        isFavorite: .constant(true),
+                        favorites: favorites,
+                        width: width * 0.66
                     )
                 }
                 .padding(.leading, 4)

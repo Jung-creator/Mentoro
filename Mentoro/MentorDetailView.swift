@@ -69,7 +69,12 @@ struct MentorDetailView: View {
                         
                         Spacer()
                             .frame(height: 32)
-                        ChipLayoutView(chipLabels: mentor.interests, mentorName: mentor.name, isFavorite: .constant(false), width: width * 0.85)
+                        ChipLayoutView(
+                            chipLabels: mentor.interests,
+                            mentorName: mentor.name,
+                            isFavorite: .constant(false),
+                            favorites: favorites,
+                            width: width * 0.85)
                     }
                     .padding(.bottom, 80)
                     .toolbar {

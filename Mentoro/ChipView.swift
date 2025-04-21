@@ -17,13 +17,15 @@ struct ChipLayoutView: View {
     
     private let chipLabels: [SubCategory]
     private let mentorName: MentorName
+    var favorites: [FavoriteItem]
     
-    init(chipLabels: [SubCategory], mentorName: MentorName, isFavorite: Binding<Bool>, width: CGFloat) {
+    init(chipLabels: [SubCategory], mentorName: MentorName, isFavorite: Binding<Bool>, favorites: [FavoriteItem], width: CGFloat) {
         self._isFavorite = isFavorite
         self.chipLabels = chipLabels
         self.mentorName = mentorName
-        _widths = State(initialValue: Array(repeating:0, count: chipLabels.count))
+        self.favorites = favorites
         self.width = width
+        _widths = State(initialValue: Array(repeating:0, count: chipLabels.count))
         
     }
     
@@ -59,7 +61,13 @@ struct ChipLayoutView: View {
             ForEach(0..<visibleRows.count, id: \.self) {
                 rowIndex in HStack(spacing:0) {
                     ForEach(visibleRows[rowIndex], id: \.self) {
-                        i in ChipView(textWidth: $widths[i], label: chipLabels[i], mentorName: mentorName, isFavorite: isFavorite)
+                        i in
+                        let chip = chipLabels[i]
+                        let isSelected = favorites.contains {
+                            $0.mentorName == mentorName && $0.chipLabel == chip
+                        }
+                        
+                        ChipView(textWidth: $widths[i], label: chipLabels[i], mentorName: mentorName, isFavorite: isFavorite, isInitiallySelected: isSelected)
                     }
                 }
             }
@@ -98,6 +106,17 @@ struct ChipView: View {
     var label: SubCategory
     var mentorName: MentorName
     var isFavorite: Bool
+    var isInitiallySelected: Bool = false
+    
+    init(textWidth: Binding<CGFloat>, label: SubCategory, mentorName: MentorName, isFavorite: Bool, isInitiallySelected: Bool) {
+        
+        self._textWidth = textWidth
+        self.label = label
+        self.mentorName = mentorName
+        self.isFavorite = isFavorite
+        _isSelected = State(initialValue: isInitiallySelected)
+    }
+    
     
     
     var body: some View {
@@ -163,6 +182,6 @@ struct ChipView: View {
 
 
 
-#Preview {
-    ChipLayoutView(chipLabels: [.자료구조, .추상화, .객체지향, .아키텍처, .코드가독성, .유지보수, .리팩토링],mentorName: mockMentors.first!.name, isFavorite: .constant(false), width: 300)
-}
+//#Preview {
+//    ChipLayoutView(chipLabels: [.자료구조, .추상화, .객체지향, .아키텍처, .코드가독성, .유지보수, .리팩토링],mentorName: mockMentors.first!.name, isFavorite: .constant(false), width: 300)
+//}

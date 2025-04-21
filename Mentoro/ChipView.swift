@@ -149,7 +149,7 @@ struct ChipView: View {
         VStack {
             HStack {
                 Text(label.rawValue)
-                if isSelected {
+                if isSelected && !isFavorite {
                     Image(systemName: "heart.fill")
                         .padding(.leading,-8)
                         .foregroundColor(label.category.color.opacity(0.6))
@@ -168,11 +168,11 @@ struct ChipView: View {
                 .fixedSize(horizontal: true, vertical: false)
                 .padding(.horizontal, isFavorite ? 8 : 16)
                 .padding(.vertical,isFavorite ? 4 : 8)
-                .background(label.category.color.opacity(isSelected ? 0.24 : 0.16))
+                .background(label.category.color.opacity(isSelected && !isFavorite ? 0.24 : 0.16))
                 .cornerRadius(24)
                 .background(
                     RoundedRectangle(cornerRadius: 24)
-                        .stroke(isSelected ? label.category.color.opacity(0.5) : Color.clear, lineWidth: 2)
+                        .stroke(isSelected && !isFavorite ? label.category.color.opacity(0.5) : Color.clear, lineWidth: 2)
                 )
             
         }

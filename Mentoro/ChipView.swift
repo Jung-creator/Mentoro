@@ -99,7 +99,14 @@ struct ChipView: View {
             isSelected.toggle()
         }) {
             VStack {
-                Text(label.rawValue)
+                HStack {
+                    Text(label.rawValue)
+                    if isSelected {
+                        Image(systemName: "heart.fill")
+                            .padding(.leading,-8)
+                            .foregroundColor(label.category.color.opacity(0.6))
+                    }
+                }
                     .foregroundColor(.black)                 .font(isFavorite ? .caption : .body)
                     .background(
                         GeometryReader {
@@ -112,17 +119,18 @@ struct ChipView: View {
                     .fixedSize(horizontal: true, vertical: false)
                     .padding(.horizontal,8)
                     .padding(.vertical,4)
-                    .background(label.category.color.opacity(isSelected ? 0.3 : 0.16))
+                    .background(label.category.color.opacity(isSelected ? 0.24 : 0.16))
                     .cornerRadius(8)
                     .background(
                         RoundedRectangle(cornerRadius: 8)
-                            .stroke(isSelected ? label.category.color.opacity(0.5) : Color.clear, lineWidth: 3)
+                            .stroke(isSelected ? label.category.color.opacity(0.5) : Color.clear, lineWidth: 2)
                     )
                 
             }
             .padding(.horizontal, isFavorite ? 2 : 4)
             
         }
+        .buttonStyle(.plain)
     }
 }
 

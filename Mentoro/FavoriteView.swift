@@ -19,8 +19,12 @@ struct FavoriteView: View {
                 VStack(alignment: .leading) {
                     Spacer()
                         .frame(height: 16)
-                    Text("Title")
-                        .font(.title.bold())
+                    HStack {
+                        Spacer()
+                            .frame(width: 8)
+                        Text("나의 관심 목록")
+                            .font(.title2.bold())
+                    }
                     ScrollView {
                         ForEach(0..<4) {
                             _ in
@@ -49,8 +53,7 @@ struct FavoriteCardItem: View {
         
         
         ZStack(alignment: .leading) {
-            Color.gray
-                .opacity(0.2)
+            Color.white
                 .frame(height: width * 0.25)
                 .cornerRadius(16)
             HStack(alignment: .top) {
@@ -63,8 +66,10 @@ struct FavoriteCardItem: View {
 //                        .frame(height:4)
                     HStack {
                         Text("Name")
+                            .foregroundColor(.black)
                             .font(.body.bold())
                         Image(systemName: "chevron.forward")
+                            .foregroundColor(.black)
                             .font(.caption)
                         Spacer()
                         Text("Part")

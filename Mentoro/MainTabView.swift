@@ -24,7 +24,7 @@ struct MainTabView: View {
                     }
                 
             }
-            .background(.ultraThinMaterial)
+            .background(.thickMaterial)
             .ignoresSafeArea(edges: .bottom)
         }
     }

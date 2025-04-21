@@ -68,9 +68,11 @@ struct FavoriteView: View {
                         }
                         Button(role: .destructive) {
                             deleteAllFavorites()
-                        } label: {
+                        }
+                        label: {
                             Text("Delete All Favorites")
                         }.buttonStyle(.bordered)
+                            .padding(.bottom, 16)
                     }
                     
                 }.padding(.horizontal)

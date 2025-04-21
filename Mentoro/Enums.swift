@@ -8,7 +8,14 @@
 import SwiftUI
 
 
-enum MentorName: String, CaseIterable, Codable {
+enum MentorName: String, CaseIterable, Identifiable, Codable, Comparable {
+    
+    static func < (lhs: MentorName, rhs: MentorName) -> Bool {
+            lhs.rawValue < rhs.rawValue
+        }
+    
+    var id: String {rawValue}
+    
     case Dora
     case Gommin
     case Daisy

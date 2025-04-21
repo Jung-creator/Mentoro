@@ -53,6 +53,7 @@ struct FavoriteView: View {
                             ) {
                                 if let chips = groupedFavorites[mentorName] {
                                     FavoriteCardItem(width: width, mentorName: mentorName, chipLabels: chips)
+                                        .id(chips.hashValue)
                                 } else {
                                     Text("no chips")
                                 }

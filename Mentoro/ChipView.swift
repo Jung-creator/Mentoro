@@ -32,7 +32,7 @@ struct ChipLayoutView: View {
         var rows: [[Int]] = [[]]
         
         for (index, width) in widths.enumerated() {
-            let chipWidth = width + 16
+            let chipWidth = isFavorite ? (width + 16) : width + 32
             if currentX + chipWidth > maxWidth {
                 rows.append([index])
                 currentX = chipWidth
@@ -63,7 +63,7 @@ struct ChipLayoutView: View {
                     }
                 }
             }
-            .padding(.bottom, isFavorite ? -4 : 0)
+            .padding(.bottom, -4)
         }
 //        
 //        if isFavorite && hiddenCount > 0 {
@@ -122,7 +122,8 @@ struct ChipView: View {
                             .foregroundColor(label.category.color.opacity(0.6))
                     }
                 }
-                    .foregroundColor(.black)                 .font(isFavorite ? .caption : .body)
+                    .foregroundColor(.black)
+                    .font(isFavorite ? .caption : .footnote)
                     .background(
                         GeometryReader {
                             geomtry in Color.clear.onAppear {
@@ -132,17 +133,17 @@ struct ChipView: View {
                     )
                     .lineLimit(1)
                     .fixedSize(horizontal: true, vertical: false)
-                    .padding(.horizontal,8)
-                    .padding(.vertical,4)
+                    .padding(.horizontal, isFavorite ? 8 : 16)
+                    .padding(.vertical,isFavorite ? 4 : 8)
                     .background(label.category.color.opacity(isSelected ? 0.24 : 0.16))
-                    .cornerRadius(8)
+                    .cornerRadius(24)
                     .background(
-                        RoundedRectangle(cornerRadius: 8)
+                        RoundedRectangle(cornerRadius: 24)
                             .stroke(isSelected ? label.category.color.opacity(0.5) : Color.clear, lineWidth: 2)
                     )
                 
             }
-            .padding(.horizontal, isFavorite ? 2 : 4)
+            .padding(.horizontal, 2)
             
         }
         .buttonStyle(.plain)

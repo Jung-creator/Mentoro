@@ -12,6 +12,7 @@ struct FavoriteView: View {
     @Environment(\.modelContext) private var context
     @Query var favorites: [FavoriteItem]
     
+    
     var groupedFavorites: [MentorName : [SubCategory]] {
         Dictionary(grouping: favorites, by: \.mentorName)
             .mapValues { $0.map(\.chipLabel) }
@@ -80,6 +81,7 @@ struct FavoriteView: View {
 
 
 struct FavoriteCardItem: View {
+    @State private var hiddenCount = 0
     let width: Double
     let mentorName: MentorName
     let chipLabels: [SubCategory]
@@ -117,13 +119,34 @@ struct FavoriteCardItem: View {
                             .foregroundColor(.gray.opacity(0.4))
                             .font(.caption)
                         Spacer()
-                        Text("Part")
-                            .font(.caption.bold())
-                            .foregroundStyle(Color.gray)
+                        
+                        if hiddenCount > 0 {
+                            ZStack {
+                                Circle()
+                                    .frame(width: 24)
+                                    .foregroundStyle(
+                                        Color.blue.opacity(0.2))
+                                HStack {
+                                    Text("+")
+                                        .font(.caption2.bold())
+                                        .foregroundStyle(Color.blue)
+                                        .padding(.bottom,2)
+                                        .padding(.trailing, -4)
+                                    Text("\(hiddenCount)")
+                                        .font(.caption2.bold())
+                                        .foregroundStyle(Color.blue)
+                                        .padding(.leading, -4)
+                                }
+                            }
+                        }
+                        
+//                        Text(hiddenCount == 0 ? "" : "\(hiddenCount)")
+//                            .font(.caption.bold())
+//                            .foregroundStyle(Color.gray)
                     }
                     .padding(.top, 2)
                     .padding(.bottom,width < 400 ? -2 : 0)
-                    .padding(.trailing)
+                    .padding(.trailing,4)
                     
                     
                     ChipLayoutView(
@@ -131,7 +154,8 @@ struct FavoriteCardItem: View {
                         mentorName: mentorName,
                         isFavorite: .constant(true),
                         favorites: favorites,
-                        width: width * 0.66
+                        width: width * 0.66,
+                        hiddenCount: $hiddenCount
                     )
                 }
                 .padding(.leading, 4)

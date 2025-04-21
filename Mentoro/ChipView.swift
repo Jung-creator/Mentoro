@@ -14,19 +14,21 @@ struct ChipLayoutView: View {
     
     @Binding var isFavorite: Bool
     @State private var widths: [CGFloat] = []
+//    @Binding var hiddenCount: Int
+    var hiddenCount: Binding<Int>?
     
     private let chipLabels: [SubCategory]
     private let mentorName: MentorName
     var favorites: [FavoriteItem]
     
-    init(chipLabels: [SubCategory], mentorName: MentorName, isFavorite: Binding<Bool>, favorites: [FavoriteItem], width: CGFloat) {
+    init(chipLabels: [SubCategory], mentorName: MentorName, isFavorite: Binding<Bool>, favorites: [FavoriteItem], width: CGFloat, hiddenCount: Binding<Int>? = nil) {
         self._isFavorite = isFavorite
         self.chipLabels = chipLabels
         self.mentorName = mentorName
         self.favorites = favorites
         self.width = width
         _widths = State(initialValue: Array(repeating:0, count: chipLabels.count))
-        
+        self.hiddenCount = hiddenCount
     }
     
     private func computeRows(from widths: [CGFloat], within maxWidth: CGFloat) -> [[Int]] {
@@ -51,10 +53,10 @@ struct ChipLayoutView: View {
             
             let maxWidth = width - 32
             let rows = computeRows(from: widths, within: maxWidth)
-//             favorite 화면이면 2줄만 나옵니다.
+            //favorite 화면이면 2줄만 나옵니다.
             let visibleRows = isFavorite ? Array(rows.prefix(2)) : rows
             let visibleIndices = visibleRows.flatMap { $0 }
-            let hiddenCount = chipLabels.count - visibleIndices.count
+            
         
         // favorite 화면이면 leading으로 정렬됩니다
         VStack(alignment: isFavorite ? .leading : .center) {
@@ -73,7 +75,10 @@ struct ChipLayoutView: View {
             }
             .padding(.bottom, -4)
         }
-//        
+        .onAppear {
+            hiddenCount?.wrappedValue = chipLabels.count - visibleIndices.count
+        }
+//
 //        if isFavorite && hiddenCount > 0 {
 //            ZStack {
 //                Circle()

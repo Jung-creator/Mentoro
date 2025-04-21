@@ -9,11 +9,18 @@ import SwiftUI
 import SwiftData
 
 struct FavoriteView: View {
+    @Environment(\.modelContext) private var context
     @Query var favorites: [FavoriteItem]
     
     var groupedFavorites: [MentorName : [SubCategory]] {
         Dictionary(grouping: favorites, by: \.mentorName)
             .mapValues { $0.map(\.chipLabel) }
+    }
+    
+    private func deleteAllFavorites() {
+        for favorite in favorites {
+            context.delete(favorite)
+        }
     }
     
     var body: some View {
@@ -32,8 +39,8 @@ struct FavoriteView: View {
                             .frame(width: 8)
                         Text("나의 관심 목록")
                             .font(.title2.bold())
-                        //                        Text("keys: \(groupedFavorites.keys.count)")
                     }
+                    
                     ScrollView {
                         ForEach(groupedFavorites.keys.sorted(), id: \.self) {
                             mentorName in
@@ -52,6 +59,11 @@ struct FavoriteView: View {
                             }
                         }
                         
+                    }
+                    Button(role: .destructive) {
+                        deleteAllFavorites()
+                    } label: {
+                        Text("Delete All Favorites")
                     }
                 }.padding(.horizontal)
             }
@@ -88,12 +100,12 @@ struct FavoriteCardItem: View {
                 VStack(alignment: .leading) {
                     HStack {
                         Spacer()
-                            .frame(width: 4)
+                            .frame(width:4)
                         Text(mentorName.rawValue)
                             .foregroundColor(.black)
                             .font(.body.bold())
                         Image(systemName: "chevron.forward")
-                            .foregroundColor(.black)
+                            .foregroundColor(.gray.opacity(0.4))
                             .font(.caption)
                         Spacer()
                         Text("Part")
@@ -107,8 +119,8 @@ struct FavoriteCardItem: View {
                     
                     ChipLayoutView(chipLabels: chipLabels, mentorName: mentorName, isFavorite: .constant(true), width: width * 0.66
                     )
-                    
                 }
+                .padding(.leading, 4)
                 
             }
             .padding(.horizontal,8)

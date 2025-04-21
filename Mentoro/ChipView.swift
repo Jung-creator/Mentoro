@@ -104,14 +104,17 @@ struct ChipView: View {
         
         Button(action: {
             isSelected.toggle()
-            let item = FavoriteItem(mentorName: mentorName, chipLabel: label)
             
-            // 중복 방지 검사 로직
-            let existing = try? modelContext.fetch(FetchDescriptor<FavoriteItem>(predicate: #Predicate { $0.mentorName == mentorName && $0.chipLabel == label }))
-            if existing?.isEmpty ?? true {
+            if isSelected {
+                let item = FavoriteItem(mentorName: mentorName, chipLabel: label)
                 modelContext.insert(item)
+            } else {
+                if let allItem = try? modelContext.fetch(FetchDescriptor<FavoriteItem>()) {
+                    for item in allItem where item.mentorName == mentorName && item.chipLabel == label {
+                        modelContext.delete(item)
+                    }
+                }
             }
-            
         }) {
             VStack {
                 HStack {

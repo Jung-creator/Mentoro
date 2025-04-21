@@ -6,8 +6,11 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct MentorDetailView: View {
+    @Query var favorites: [FavoriteItem]
+
     private let mentor: Mentor
     
     init(mentor: Mentor) {
@@ -60,6 +63,10 @@ struct MentorDetailView: View {
                                 .padding(.horizontal, width * 0.1)
                             
                         }
+                        
+                        // MARK: 저장된 Favorites 보여주기
+                        Text(favorites.map {$0.chipLabel.rawValue}.joined(separator: ", "))
+                        
                         Spacer()
                             .frame(height: 32)
                         ChipLayoutView(chipLabels: mentor.interests, mentorName: mentor.name, isFavorite: .constant(false), width: width * 0.85)

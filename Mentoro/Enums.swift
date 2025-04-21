@@ -8,13 +8,13 @@
 import SwiftUI
 
 
-enum MentorName: String, CaseIterable, Identifiable, Codable, Comparable {
+enum MentorName: String, CaseIterable, Identifiable, Codable, Comparable, Equatable {
     
     static func < (lhs: MentorName, rhs: MentorName) -> Bool {
             lhs.rawValue < rhs.rawValue
         }
     
-    var id: String {rawValue}
+    var id: String { self.rawValue }
     
     case Dora
     case Gommin
@@ -101,7 +101,7 @@ enum Category: String, CaseIterable, Identifiable {
 }
 
 
-enum SubCategory: String, CaseIterable, Identifiable, Codable {
+enum SubCategory: String, CaseIterable, Identifiable, Codable, Equatable {
     var id: String { self.rawValue }
 
     // 개발

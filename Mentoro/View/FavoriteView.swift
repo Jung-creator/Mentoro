@@ -25,59 +25,80 @@ struct FavoriteView: View {
     }
     
     var body: some View {
-        
-        ZStack {
-            Color.gray.opacity(0.05) // 전체 배경
-                .ignoresSafeArea()
-            GeometryReader {
-                geometry in
-                let width = geometry.size.width
-                VStack(alignment: .leading) {
-                    Spacer()
-                        .frame(height: 16)
-                    HStack {
+        NavigationStack {
+            ZStack {
+                Color.gray.opacity(0.05) // 전체 배경
+                    .ignoresSafeArea()
+                GeometryReader {
+                    geometry in
+                    let width = geometry.size.width
+                    VStack(alignment: .leading) {
                         Spacer()
-                            .frame(width: 8)
-                        Text("나의 관심 목록")
-                            .font(.title2.bold())
-                    }
-                    
-                    ZStack(alignment: .bottom) {
-                        ScrollView {
-                            ForEach(groupedFavorites.keys.sorted(), id: \.self) {
-                                mentorName in
-                                
-                                NavigationLink(
-                                    destination:
-                                        
-                                        MentorDetailView(mentor: mockMentors.first(where: { $0.name == mentorName })!)
+                            .frame(height: 16)
+                        HStack {
+                            Spacer()
+                                .frame(width: 8)
+                            Text("나의 관심 목록")
+                                .font(.title2.bold())
+                        }
+                        
+                        
+                        
+                        if favorites.isEmpty {
+                            VStack {
+                                Spacer()
+                                Text("아직 관심 목록이 없습니다.")
+                                    .font(.caption.bold())
+                                Spacer()
+                            }
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+                        } else {
+                            
+                            ZStack(alignment: .bottom) {
+                                ScrollView {
                                     
-                                ) {
-                                    if let chips = groupedFavorites[mentorName] {
-                                        FavoriteCardItem(
-                                            width: width,
-                                            mentorName: mentorName,
-                                            chipLabels: chips,
-                                            favorites: favorites)
-                                        .id(chips.hashValue)
-                                    } else {
-                                        Text("no chips")
+                                    ForEach(groupedFavorites.keys.sorted(), id: \.self) {
+                                        mentorName in
+                                        
+                                        NavigationLink(
+                                            destination:
+                                                
+                                                MentorDetailView(mentor: mockMentors.first(where: { $0.name == mentorName })!)
+                                            
+                                        ) {
+                                            if let chips = groupedFavorites[mentorName] {
+                                                FavoriteCardItem(
+                                                    width: width,
+                                                    mentorName: mentorName,
+                                                    chipLabels: chips,
+                                                    favorites: favorites)
+                                                .id(chips.hashValue)
+                                            } else {
+                                                Text("no chips")
+                                            }
+                                        }
                                     }
                                 }
+                                
+                                Button(role: .destructive) {
+                                    deleteAllFavorites()
+                                }
+                                label: {
+                                    Text("Delete All Favorites")
+                                }.buttonStyle(.bordered)
+                                    .padding(.bottom, 16)
                             }
+                            
+                            
+                            
                         }
-                        Button(role: .destructive) {
-                            deleteAllFavorites()
-                        }
-                        label: {
-                            Text("Delete All Favorites")
-                        }.buttonStyle(.bordered)
-                            .padding(.bottom, 16)
-                    }
-                    
-                }.padding(.horizontal)
+                        
+                    }.padding(.horizontal)
+                }
             }
         }
+        
     }
 }
 
@@ -142,9 +163,9 @@ struct FavoriteCardItem: View {
                             }
                         }
                         
-//                        Text(hiddenCount == 0 ? "" : "\(hiddenCount)")
-//                            .font(.caption.bold())
-//                            .foregroundStyle(Color.gray)
+                        //                        Text(hiddenCount == 0 ? "" : "\(hiddenCount)")
+                        //                            .font(.caption.bold())
+                        //                            .foregroundStyle(Color.gray)
                     }
                     .padding(.top, 2)
                     .padding(.bottom,width < 400 ? -2 : 0)

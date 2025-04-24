@@ -53,7 +53,7 @@ struct ChipLayoutView: View {
             
             let maxWidth = width - 32
             let rows = computeRows(from: widths, within: maxWidth)
-            //favorite 화면이면 2줄만 나옵니다.
+            // favorite 화면이면 2줄만 나옵니다.
             let visibleRows = isFavorite ? Array(rows.prefix(2)) : rows
             let visibleIndices = visibleRows.flatMap { $0 }
             
@@ -150,7 +150,22 @@ struct ChipView: View {
         }
     }
     
+    enum chipContentProperties {
+        case isFavorite
+        case notFavorite
+        
+        var colorOpacity: Double {
+            switch self {
+            case .isFavorite:
+                return 1
+            case .notFavorite:
+                return 0.6
+            }
+        }
+    }
+    
     private var chipContent: some View {
+//        let favorite: chipContentProperties = isFavorite ? .isFavorite : .notFavorite
         VStack {
             HStack {
                 Text(label.rawValue)

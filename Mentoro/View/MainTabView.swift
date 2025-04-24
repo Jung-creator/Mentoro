@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MainTabView: View {
     var body: some View {
-        NavigationStack {
+//        NavigationStack {
             TabView {
                 MainView()
                     .tabItem {
@@ -24,9 +24,9 @@ struct MainTabView: View {
                     }
                 
             }
-//            .background(.thickMaterial)
-            .ignoresSafeArea(edges: .bottom)
-        }
+            .background(.ultraThinMaterial)
+
+//        }
     }
 }
 

@@ -8,18 +8,17 @@
 
 > **Mentoro**는 Apple Developer Academy 멘토들의 관심사를 한눈에 살펴보고, 나만의 관심 키워드를 저장할 수 있는 iOS 앱입니다.
 
+
 ---
 
 ## 🖼️ Preview
 
 | Main View | Keyword Detail | Favorites |
 |-----------|----------------|-----------|
-| ![Simulator Screenshot 1](https://github.com/user-attachments/assets/14fe43c2-d5ab-45da-a800-346def76e20d)
-  | ![Simulator Screenshot 2](https://github.com/user-attachments/assets/68ce07d8-aa24-4a3e-9035-688a102452ba)
- | ![Simulator Screenshot 3](https://github.com/user-attachments/assets/e77f3067-c0ad-4aaa-81ca-b45a6805b5b9)
- |
+| <img src="https://github.com/user-attachments/assets/14fe43c2-d5ab-45da-a800-346def76e20d" width="200"/> | <img src="https://github.com/user-attachments/assets/68ce07d8-aa24-4a3e-9035-688a102452ba" width="200"/> | <img src="https://github.com/user-attachments/assets/e77f3067-c0ad-4aaa-81ca-b45a6805b5b9" width="200"/> |
 
 ---
+
 
 ## 📱 주요 기능
 

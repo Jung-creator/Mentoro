@@ -32,6 +32,27 @@ enum MentorName: String, CaseIterable, Identifiable, Codable, Comparable, Equata
     case Jiku
     case Friday
     case Howard
+
+//    var feature: [Keyword] {
+//        switch self {
+//        case .Dora : return [.스마일, .게임]
+//        case .Gommin : return [.스마일, .다크써클]
+//        case .Daisy : return [.스마일, .구름]
+//        case .Nathan : return [.지원, .축구]
+//        case .Lumi : return [.스마일, .야구]
+//        case .Leeo: return [.장난, .게임]
+//        case .Lingo: return [.아이디어, .애플]
+//        case .Saya: return [.스마일, .러닝]
+//        case .Sup: return [.팩트, .치킨]
+//        case .Isaac: return [.팩트, .애플]
+//        case .MK: return [.칭찬, .러닝]
+//        case .Jason: return [.팩트, .자동차]
+//        case .Judy: return [.팩트, .춤]
+//        case .Jiku: return [.장난, .구름]
+//        case .Friday: return [.장난, .게임]
+//        case .Howard: return [.장난, .크록스]
+//        }
+//    }
 }
 
 enum Field: String, CaseIterable {
@@ -40,6 +61,7 @@ enum Field: String, CaseIterable {
     case 비즈니스
     case 러닝디벨롭먼트
     case 디자인비즈니스
+    
     
     var disPlayName: String {
         switch self {
@@ -51,6 +73,7 @@ enum Field: String, CaseIterable {
         
 
 enum KeywordType: String, CaseIterable {
+    case 분야
     case 표현
     case 특징
 }
@@ -58,18 +81,52 @@ enum KeywordType: String, CaseIterable {
 
 enum Keyword: String, CaseIterable {
     
+    // 분야
+    case 개발, 디자인, 비즈니스, 비즈디자인, 러닝디벨롭
+    
     // 표현
     case 스마일, 칭찬, 사랑, 아이디어, 팩트, 지원, 대화, 장난
     
     // 특징
-    case 다크써클, 구름, 크록스, 러닝, 야구, 축구, 게임, 치킨, 오토바이, 애플, 간장게장
+    case 다크써클, 구름, 크록스, 러닝, 야구, 축구, 게임, 자동차, 치킨, 애플, 춤
     
     var type: KeywordType {
         switch self {
+        case .개발, .디자인, .비즈니스, .비즈디자인, .러닝디벨롭:
+            return .분야
         case .스마일, .칭찬, .사랑, .아이디어, .팩트, .지원, .대화, .장난:
             return .표현
-        case .다크써클, .구름, .크록스, .러닝, .야구, .축구, .게임, .치킨, .오토바이, .애플, .간장게장:
+        case .다크써클, .구름, .크록스, .러닝, .야구, .축구, .게임, .자동차, .치킨, .애플, .춤:
             return .특징
+        }
+    }
+    
+    var iconName: String {
+        switch self {
+        case .개발: return "arrowkeys"
+        case .디자인: return "wand.and.sparkles"
+        case .비즈니스: return "paperclip"
+        case .비즈디자인: return "pencil.tip.crop.circle.badge.plus"
+        case .러닝디벨롭: return "mappin.and.ellipse"
+        case .스마일: return "face.smiling"
+        case .칭찬: return "hands.clap"
+        case .사랑: return "heart"
+        case .아이디어: return "lightbulb.min"
+        case .팩트: return "hand.rays"
+        case .지원: return "figure.2.arms.open"
+        case .대화: return "message"
+        case .장난: return "fan"
+        case .다크써클: return "eye"
+        case .구름: return "cloud"
+        case .크록스: return "shoe"
+        case .러닝: return "figure.run"
+        case .야구: return "baseball"
+        case .축구: return "soccerball"
+        case .게임: return "gamecontroller"
+        case .자동차: return "car.side"
+        case .치킨: return "bird"
+        case .애플: return "apple.logo"
+        case .춤: return "figure.socialdance"
         }
     }
     

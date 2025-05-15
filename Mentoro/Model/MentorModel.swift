@@ -14,4 +14,5 @@ struct Mentor: Identifiable {
     let imageName: String
     let field: Field
     let interests: [SubCategory]
+    let features: [Keyword]
 }

@@ -43,18 +43,18 @@ struct MentorDetailView: View {
                                 .padding(.horizontal, width * 0.1)
                             
                             HStack {
-                                ImageAndTextView()
+                                ImageAndTextView(imageName: mentor.features[0])
                                 
                                 Rectangle()
                                     .fill(Color.gray)
                                     .opacity(0.2)
                                     .frame(width: 1, height: 32)
-                                ImageAndTextView()
+                                ImageAndTextView(imageName: mentor.features[1])
                                 Rectangle()
                                     .fill(Color.gray)
                                     .opacity(0.2)
                                     .frame(width: 1, height: 32)
-                                ImageAndTextView()
+                                ImageAndTextView(imageName: mentor.features[2])
                             }
                             Color.gray
                                 .frame(height:1)
@@ -93,14 +93,20 @@ struct MentorDetailView: View {
 }
 
 struct ImageAndTextView: View {
+    private let imageName: Keyword
+    
+    init(imageName: Keyword) {
+        self.imageName = imageName
+    }
+    
     var body: some View {
         VStack {
-            Image(systemName: "star.fill")
+            Image(systemName: imageName.iconName)
                 .font(.title)
                 .foregroundColor(.gray)
                 .opacity(0.3)
                 .padding(.all,8)
-            Text("title")
+            Text(imageName.rawValue)
                 .font(.caption)
                 .foregroundStyle(Color.gray)
                 .opacity(0.5)
